@@ -20,6 +20,7 @@ module Data.Time.Extra
   , TimeFrameType(..)
   , Hours(..)
   , _Hours
+  , addUTCHours
   , DateRange(..)
   , mkDateRange
   , drFromDate
@@ -58,6 +59,10 @@ newtype Hours
 instance NFData Hours
 
 makePrisms ''Hours
+
+addUTCHours :: Hours -> UTCTime -> UTCTime
+addUTCHours (Hours h) t = addUTCTime s t
+  where s = fromIntegral (h * 3600)
 
 duration :: ShortZonedTime -> ShortZonedTime -> Minutes
 duration t1 t2 = Minutes (timeDiff `div` 60)
