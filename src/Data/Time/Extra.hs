@@ -9,7 +9,9 @@ module Data.Time.Extra
   , UTCTime'(..)
   , _UTCTime'
   , mskTimeZone
+  , estTimeZone
   , toAPITimeMSK
+  , toAPITimeEST
   , apiDate
   , module Data.Time.LocalTime.Short
   , TimeFrame
@@ -160,8 +162,14 @@ apiDate = prism' toApiDate fromApiDate
 mskTimeZone :: TimeZone
 mskTimeZone = TimeZone (3 * 60) False "MSK"
 
+estTimeZone :: TimeZone
+estTimeZone = TimeZone (-5 * 60) False "EST"
+
 toAPITimeMSK :: UTCTime -> ShortZonedTime
 toAPITimeMSK = shortZonedTime . utcToZonedTime mskTimeZone
+
+toAPITimeEST :: UTCTime -> ShortZonedTime
+toAPITimeEST = shortZonedTime . utcToZonedTime estTimeZone
 
 data TimeFrameType
   = TimeOfArrival
