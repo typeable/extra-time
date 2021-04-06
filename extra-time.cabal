@@ -30,7 +30,10 @@ library
     deepseq ,
     mtl >= 2.2 ,
     text ,
-    time ,
+    -- | In time-1.9 parseTimeM works in MonadFail
+    --   and require special processing.
+    --   See also https://gitlab.haskell.org/ghc/ghc/-/issues/12160
+    time < 1.9,
     -- | from hackage
     aeson ,
     dom-parser ,
