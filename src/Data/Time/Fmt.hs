@@ -1,3 +1,5 @@
+{-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE CPP #-}
 module Data.Time.Fmt
   ( FmtTime(..)
   , _FmtTime
@@ -26,6 +28,10 @@ import           Text.XML.DOM.Parser
 import           Text.XML.Writer
 import           Web.HttpApiData
 
+#if !MIN_VERSION_base(4,13,0)
+import           Control.Monad.Fail
+#endif
+
 
 newtype FmtTime (fmt :: Symbol) a = FmtTime
   { unFmtTime :: a
@@ -43,7 +49,7 @@ fmtTimeToString =
 
 fmtTimeFromString
   :: forall a fmt m
-  . (ParseTime a, KnownSymbol fmt, Monad m)
+  . (ParseTime a, KnownSymbol fmt, MonadFail m)
   => String
   -> m (FmtTime fmt a)
 fmtTimeFromString =
@@ -67,11 +73,14 @@ instance (ParseTime a, KnownSymbol fmt) => FromJSON (FmtTime fmt a) where
 instance (FormatTime a, KnownSymbol fmt) => ToHttpApiData (FmtTime fmt a) where
   toUrlPiece = T.pack . fmtTimeToString
 
+errParseFmtTime
+  :: forall fmt s. (KnownSymbol fmt, IsString s, Semigroup s) => s -> s
+errParseFmtTime t =
+  "no parse " <> t <> " as " <> fromString (symbolVal (Proxy @fmt))
+
 instance (ParseTime a, KnownSymbol fmt) => FromHttpApiData (FmtTime fmt a) where
-  parseUrlPiece t = maybe err Right $ fmtTimeFromString $ T.unpack t
-    where
-      fmt = T.pack $ symbolVal (Proxy @fmt)
-      err = Left $ "no parse " <> t <> " as " <> fmt
+  parseUrlPiece t =
+    maybe (Left $ errParseFmtTime @fmt t) Right $ fmtTimeFromString $ T.unpack t
 
 instance (FormatTime a, KnownSymbol fmt) => ToXML (FmtTime fmt a) where
   toXML = toXML . T.pack . fmtTimeToString
@@ -79,10 +88,8 @@ instance (FormatTime a, KnownSymbol fmt) => ToXML (FmtTime fmt a) where
 instance (ParseTime a, KnownSymbol fmt) => FromDom (FmtTime fmt a) where
   fromDom = do
     s <- fromDom
-    case fmtTimeFromString s of
-      Right a -> return a
-      Left  e -> throwParserError $
-        PEContentWrongFormat (T.pack e)
+    maybe (throwParserError $ PEContentWrongFormat $ errParseFmtTime @fmt s)
+      pure $ fmtTimeFromString $ T.unpack s
 
 type ZonedISO8601 = ("%FT%T%Q%z" :: Symbol)
 

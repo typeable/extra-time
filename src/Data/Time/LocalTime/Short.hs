@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Data.Time.LocalTime.Short
   ( ShortZonedTime
   , shortZonedTime
@@ -17,20 +18,24 @@ module Data.Time.LocalTime.Short
 
 import           Control.DeepSeq (NFData)
 import           Control.Lens
-import           Control.Lens.Missing
 import           Control.Monad.State
 import           Data.Aeson
 import           Data.Binary (Binary)
 import           Data.Coerce
 import           Data.Ord (comparing)
-import qualified Data.Time as T
+import           Data.Time as T
 import           Data.Time.Fmt
-import           Data.Time.Format
 import           Data.Time.LocalTime.Instances ()
+import           Data.Time.Utils
 import           GHC.Generics (Generic)
 import           Test.QuickCheck (Arbitrary)
 import qualified Test.QuickCheck as QC
 import           Test.QuickCheck.Instances ()
+
+#if MIN_VERSION_time(1,9,0)
+import           Data.Proxy
+import           Data.Time.Format.Internal
+#endif
 
 
 -- | @ZonedTime@ where seconds = 0.
@@ -63,6 +68,9 @@ shortZonedTime = coerce . clipZonedTime
 
 instance ParseTime ShortZonedTime where
   buildTime tl ps = shortZonedTime <$> buildTime tl ps
+#if MIN_VERSION_time(1,9,0)
+  parseTimeSpecifier _ = parseTimeSpecifier (Proxy @T.ZonedTime)
+#endif
 
 instance Show ShortZonedTime where
   -- Display as a string.
@@ -100,6 +108,10 @@ shortLocalTime = coerce . clipLocalTime
 
 instance ParseTime ShortLocalTime where
   buildTime tl ps = shortLocalTime <$> buildTime tl ps
+#if MIN_VERSION_time(1,9,0)
+  parseTimeSpecifier _ = parseTimeSpecifier (Proxy @T.LocalTime)
+#endif
+
 
 type FmtShortZonedTime fmt = FmtTime fmt ShortZonedTime
 

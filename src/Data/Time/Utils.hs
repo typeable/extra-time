@@ -3,10 +3,17 @@ module Data.Time.Utils
   , oneHour
   , oneMinute
   , zoneLocalTime
+  , _zonedTimeToLocalTime
+  , _localDay
+  , _localTimeOfDay
+  , _todSec
+  , _todMin
+  , _todHour
   ) where
 
-import Data.Time
-import Data.Time.LocalTime.TimeZone.Series
+import           Control.Lens
+import           Data.Time
+import           Data.Time.LocalTime.TimeZone.Series
 
 
 the24h :: NominalDiffTime
@@ -27,3 +34,15 @@ zoneLocalTime tzs lt = let
   u  = localTimeToUTC' tzs lt
   tz = timeZoneFromSeries tzs u
   in ZonedTime lt tz
+
+makeLensesFor
+  [("zonedTimeToLocalTime", "_zonedTimeToLocalTime")] ''ZonedTime
+
+makeLensesFor
+  [("localDay", "_localDay"), ("localTimeOfDay", "_localTimeOfDay")]
+  ''LocalTime
+
+makeLensesFor
+  [ ("todSec", "_todSec")
+  , ("todMin", "_todMin")
+  , ("todHour", "_todHour")] ''TimeOfDay

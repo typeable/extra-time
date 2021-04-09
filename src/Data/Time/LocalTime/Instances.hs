@@ -5,9 +5,6 @@ module Data.Time.LocalTime.Instances where
 import           Data.Binary (Binary(..))
 import           Data.Fixed (Fixed(..))
 import           Data.Time
-  (Day(..), LocalTime(..), TimeOfDay(..), TimeZone(..), ZonedTime(..))
-import qualified Data.Time as T
-import           Data.Time.Clock
 import           GHC.Generics (Generic)
 
 

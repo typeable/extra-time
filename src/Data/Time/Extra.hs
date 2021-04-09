@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Data.Time.Extra
   ( Minutes(..)
   , _Minutes
@@ -33,7 +34,6 @@ module Data.Time.Extra
 import           Control.DeepSeq
 import           Control.Lens
 import           Control.Monad
-import           Control.Monad.Fail
 import           Data.Aeson
 import           Data.Binary
 import           Data.Function (on)
@@ -45,6 +45,9 @@ import           GHC.Generics (Generic)
 import           Test.QuickCheck
 import           Test.QuickCheck.Arbitrary.Generic
 
+#if !MIN_VERSION_base(4,13,0)
+import           Control.Monad.Fail
+#endif
 
 newtype Minutes
   = Minutes { unMinutes :: Int
@@ -63,8 +66,7 @@ instance NFData Hours
 makePrisms ''Hours
 
 addUTCHours :: Hours -> UTCTime -> UTCTime
-addUTCHours (Hours h) t = addUTCTime s t
-  where s = fromIntegral (h * 3600)
+addUTCHours (Hours h) = addUTCTime $ fromIntegral (h * 3600)
 
 duration :: ShortZonedTime -> ShortZonedTime -> Minutes
 duration t1 t2 = Minutes (timeDiff `div` 60)

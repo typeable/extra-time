@@ -30,10 +30,7 @@ library
     deepseq ,
     mtl >= 2.2 ,
     text ,
-    -- | In time-1.9 parseTimeM works in MonadFail
-    --   and require special processing.
-    --   See also https://gitlab.haskell.org/ghc/ghc/-/issues/12160
-    time < 1.9,
+    time,
     -- | from hackage
     aeson ,
     dom-parser ,
@@ -44,8 +41,6 @@ library
     quickcheck-instances ,
     timezone-series ,
     xml-conduit-writer ,
-    -- | internal packages
-    missing-lens ,
   exposed-modules:
     Data.Time.Extra
     Data.Time.Fmt
