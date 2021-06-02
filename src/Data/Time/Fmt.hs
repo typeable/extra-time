@@ -24,9 +24,12 @@ import           Data.Time
 import           GHC.Generics (Generic)
 import           GHC.TypeLits
 import           Test.QuickCheck
+import           Web.HttpApiData
+
+#ifndef ghcjs_HOST_OS
 import           Text.XML.DOM.Parser
 import           Text.XML.Writer
-import           Web.HttpApiData
+#endif
 
 #if !MIN_VERSION_base(4,13,0)
 import           Control.Monad.Fail
@@ -82,6 +85,7 @@ instance (ParseTime a, KnownSymbol fmt) => FromHttpApiData (FmtTime fmt a) where
   parseUrlPiece t =
     maybe (Left $ errParseFmtTime @fmt t) Right $ fmtTimeFromString $ T.unpack t
 
+#ifndef ghcjs_HOST_OS
 instance (FormatTime a, KnownSymbol fmt) => ToXML (FmtTime fmt a) where
   toXML = toXML . T.pack . fmtTimeToString
 
@@ -90,6 +94,7 @@ instance (ParseTime a, KnownSymbol fmt) => FromDom (FmtTime fmt a) where
     s <- fromDom
     maybe (throwParserError $ PEContentWrongFormat $ errParseFmtTime @fmt s)
       pure $ fmtTimeFromString $ T.unpack s
+#endif
 
 type ZonedISO8601 = ("%FT%T%Q%z" :: Symbol)
 

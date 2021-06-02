@@ -33,14 +33,16 @@ library
     time,
     -- | from hackage
     aeson ,
-    dom-parser ,
     generic-arbitrary ,
     http-api-data ,
     lens >= 4.17 ,
     QuickCheck ,
     quickcheck-instances ,
     timezone-series ,
-    xml-conduit-writer ,
+  if !impl(ghcjs)
+    build-depends:
+      dom-parser ,
+      xml-conduit-writer ,
   exposed-modules:
     Data.Time.Extra
     Data.Time.Fmt
