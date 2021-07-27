@@ -24,6 +24,7 @@ module Data.Time.Extra
   , Hours(..)
   , _Hours
   , addUTCHours
+  , addUTCMinutes
   , DateRange(..)
   , mkDateRange
   , drFromDate
@@ -67,6 +68,9 @@ makePrisms ''Hours
 
 addUTCHours :: Hours -> UTCTime -> UTCTime
 addUTCHours (Hours h) = addUTCTime $ fromIntegral (h * 3600)
+
+addUTCMinutes :: Minutes -> UTCTime -> UTCTime
+addUTCMinutes (Minutes m) = addUTCTime $ fromIntegral $ m * 60
 
 duration :: ShortZonedTime -> ShortZonedTime -> Minutes
 duration t1 t2 = Minutes (timeDiff `div` 60)
