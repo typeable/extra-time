@@ -1,4 +1,4 @@
-{-# LANGUAGE CPP #-}
+{-# LANGUAGE CPP, DerivingStrategies, DeriveAnyClass #-}
 module Data.Time.LocalTime.Short
   ( ShortZonedTime
   , shortZonedTime
@@ -43,7 +43,8 @@ import           Data.Time.Format.Internal
 newtype ShortZonedTime
   = ShortZonedTime
   { unShortZonedTime :: T.ZonedTime
-  } deriving (FormatTime, NFData, Generic, FromJSON, ToJSON)
+  } deriving stock (Generic)
+  deriving newtype (FormatTime, NFData, FromJSON, ToJSON)
 
 shortZonedLocalDay :: ShortZonedTime -> T.Day
 shortZonedLocalDay = T.localDay . T.zonedTimeToLocalTime . unShortZonedTime
@@ -69,6 +70,7 @@ shortZonedTime = coerce . clipZonedTime
 instance ParseTime ShortZonedTime where
   buildTime tl ps = shortZonedTime <$> buildTime tl ps
 #if MIN_VERSION_time(1,9,0)
+  substituteTimeSpecifier _ = substituteTimeSpecifier (Proxy @T.ZonedTime)
   parseTimeSpecifier _ = parseTimeSpecifier (Proxy @T.ZonedTime)
 #endif
 
@@ -94,7 +96,9 @@ instance Ord ShortZonedTime where
 newtype ShortLocalTime
   = ShortLocalTime
   { unShortLocalTime :: T.LocalTime
-  } deriving (Eq, Ord, FormatTime, NFData, Generic)
+  } deriving stock (Eq, Ord, Generic)
+  deriving newtype (FormatTime)
+  deriving newtype (NFData)
 
 instance Binary ShortLocalTime
 
@@ -109,6 +113,7 @@ shortLocalTime = coerce . clipLocalTime
 instance ParseTime ShortLocalTime where
   buildTime tl ps = shortLocalTime <$> buildTime tl ps
 #if MIN_VERSION_time(1,9,0)
+  substituteTimeSpecifier _ = substituteTimeSpecifier (Proxy @T.ZonedTime)
   parseTimeSpecifier _ = parseTimeSpecifier (Proxy @T.LocalTime)
 #endif
 
