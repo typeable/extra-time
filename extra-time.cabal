@@ -27,6 +27,7 @@ library
     -- | from ghc
     base >= 4.7 && < 5 ,
     binary ,
+    containers ,
     deepseq ,
     mtl >= 2.2 ,
     text ,
@@ -46,6 +47,7 @@ library
   exposed-modules:
     Data.Time.Extra
     Data.Time.Fmt
+    Data.Time.Holidays
     Data.Time.LocalTime.Short
     Data.Time.Utils
   other-modules:
