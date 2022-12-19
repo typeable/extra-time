@@ -1,5 +1,3 @@
--- {-# OPTIONS_GHC -fwarn-name-shadowing #-}
-
 module Data.Time.Holidays
   ( addTimeExcludingHolidays
   ) where
