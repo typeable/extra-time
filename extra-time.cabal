@@ -6,7 +6,7 @@ license-file:         LICENSE
 author:               typeable.io
 maintainer:           giorgio@marinel.li
 build-type:           Simple
-extra-source-files:   README.md
+extra-source-files:   README.md, data/opm-holidays.csv
 
 library
   hs-source-dirs:     src
@@ -27,10 +27,16 @@ library
     -- | from ghc
     base >= 4.7 && < 5 ,
     binary ,
+    bytestring ,
     containers ,
+    cassava ,
+    cassava-embed ,
+    file-embed ,
     deepseq ,
     mtl >= 2.2 ,
+    template-haskell ,
     text ,
+    th-lift ,
     time,
     -- | from hackage
     aeson ,
@@ -52,3 +58,4 @@ library
     Data.Time.Utils
   other-modules:
     Data.Time.LocalTime.Instances
+    Holidays.Orphans

@@ -1,5 +1,6 @@
 module Data.Time.Holidays
   ( addTimeExcludingHolidays
+  , opmHolidays2023to2030
   ) where
 
 import           Data.Proxy
@@ -7,7 +8,15 @@ import qualified Data.Set as S
 import           Data.Time
 import           Data.Time.Calendar.OrdinalDate
 import           Data.Time.LocalTime.TimeZone.Series
+import           Data.Csv (Only(..))
+import           Data.FileEmbed (makeRelativeToProject)
+import           Data.Csv.Embed (embedRecords)
+import           Holidays.Orphans ()
 
+opmHolidays2023to2030 :: S.Set Day
+opmHolidays2023to2030 = S.fromList $
+  fromOnly <$>
+    $(makeRelativeToProject "data/opm-holidays.csv" >>= embedRecords (Proxy @(Only Day)))
 
 addTimeExcludingHolidays
   :: S.Set Day
