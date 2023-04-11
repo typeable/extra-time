@@ -15,7 +15,9 @@ library
     DataKinds
     DeriveFunctor
     DeriveGeneric
+    DerivingStrategies
     GeneralizedNewtypeDeriving
+    ImportQualifiedPost
     KindSignatures
     OverloadedStrings
     RankNTypes
@@ -46,6 +48,7 @@ library
     QuickCheck ,
     quickcheck-instances ,
     timezone-series ,
+    vector ,
   if !impl(ghcjs)
     build-depends:
       dom-parser ,
@@ -58,4 +61,4 @@ library
     Data.Time.Utils
   other-modules:
     Data.Time.LocalTime.Instances
-    Holidays.Orphans
+    Holidays.EDay
