@@ -7,7 +7,7 @@ import Data.ByteString.Char8
 import Data.Csv
 import Data.Time
 import Data.Time.Calendar.OrdinalDate
-import Data.Vector qualified as V
+import qualified Data.Vector as V
 import Language.Haskell.TH.Lift
 
 data EDay = EDay {edYear :: Integer, edDay :: Int}
