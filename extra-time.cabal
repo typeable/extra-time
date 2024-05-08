@@ -12,13 +12,14 @@ library
   hs-source-dirs:     src
   default-language:   Haskell2010
   default-extensions:
+    BangPatterns
     DataKinds
     DeriveFunctor
     DeriveGeneric
     DerivingStrategies
     GeneralizedNewtypeDeriving
-    ImportQualifiedPost
     KindSignatures
+    NamedFieldPuns
     OverloadedStrings
     RankNTypes
     ScopedTypeVariables
@@ -36,7 +37,6 @@ library
     file-embed ,
     deepseq ,
     mtl >= 2.2 ,
-    template-haskell ,
     text ,
     th-lift ,
     time,
@@ -55,6 +55,7 @@ library
       xml-conduit-writer ,
   exposed-modules:
     Data.Time.Extra
+    Data.Time.FastSeries
     Data.Time.Fmt
     Data.Time.Holidays
     Data.Time.LocalTime.Short

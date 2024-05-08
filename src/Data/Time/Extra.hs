@@ -4,6 +4,7 @@ module Data.Time.Extra
   , _Minutes
   , duration
   , durationLocal
+  , durationUTC
   , minutesToNDF
   , UTCDate(..)
   , _UTCDate
@@ -82,6 +83,12 @@ durationLocal :: LocalTime -> LocalTime -> Minutes
 durationLocal t1 t2 = Minutes (timeDiff `div` 60)
   where
     calcDiff = diffUTCTime `on` localTimeToUTC utc
+    timeDiff = round (calcDiff t1 t2)
+
+durationUTC :: UTCTime -> UTCTime -> Minutes
+durationUTC t1 t2 = Minutes (timeDiff `div` 60)
+  where
+    calcDiff = diffUTCTime
     timeDiff = round (calcDiff t1 t2)
 
 minutesToNDF :: Minutes -> NominalDiffTime

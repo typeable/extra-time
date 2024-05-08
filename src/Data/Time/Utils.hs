@@ -13,7 +13,7 @@ module Data.Time.Utils
 
 import           Control.Lens
 import           Data.Time
-import           Data.Time.LocalTime.TimeZone.Series
+import           Data.Time.FastSeries
 
 
 the24h :: NominalDiffTime
@@ -25,15 +25,15 @@ oneHour = 60 * 60
 oneMinute :: NominalDiffTime
 oneMinute = 60
 
--- | Calculate TimeZone using TimeZoneSeries and construct ZonedTime
+-- | Calculate 'TimeZone' using 'TimeZoneSeries' and construct 'ZonedTime'.
+--
+-- See caveats on 'localTimeToUTC''.
 zoneLocalTime
   :: TimeZoneSeries
   -> LocalTime
   -> ZonedTime
-zoneLocalTime tzs lt = let
-  u  = localTimeToUTC' tzs lt
-  tz = timeZoneFromSeries tzs u
-  in ZonedTime lt tz
+zoneLocalTime tzsf lt = ZonedTime lt tz
+  where !tz = timeZoneFromSeriesLocal tzsf lt
 
 makeLensesFor
   [("zonedTimeToLocalTime", "_zonedTimeToLocalTime")] ''ZonedTime

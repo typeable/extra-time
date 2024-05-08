@@ -7,7 +7,7 @@ import           Data.Proxy
 import qualified Data.Set as S
 import           Data.Time
 import           Data.Time.Calendar.OrdinalDate
-import           Data.Time.LocalTime.TimeZone.Series
+import           Data.Time.FastSeries
 import           Data.FileEmbed (makeRelativeToProject)
 import           Data.Csv.Embed (embedRecords)
 import           Holidays.EDay (eDayToDay, EDay)
