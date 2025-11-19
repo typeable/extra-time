@@ -30,6 +30,7 @@ library
     -- | from ghc
     base >= 4.7 && < 5 ,
     binary ,
+    binary-instances ,
     bytestring ,
     containers ,
     cassava ,
@@ -61,5 +62,4 @@ library
     Data.Time.LocalTime.Short
     Data.Time.Utils
   other-modules:
-    Data.Time.LocalTime.Instances
     Holidays.EDay

@@ -21,11 +21,11 @@ import           Control.Lens
 import           Control.Monad.State
 import           Data.Aeson
 import           Data.Binary (Binary)
+import           Data.Binary.Instances.Time ()
 import           Data.Coerce
 import           Data.Ord (comparing)
 import           Data.Time as T
 import           Data.Time.Fmt
-import           Data.Time.LocalTime.Instances ()
 import           Data.Time.Utils
 import           GHC.Generics (Generic)
 import           Test.QuickCheck (Arbitrary)
