@@ -30,15 +30,15 @@ library
 
   build-depends:
     , aeson
-    , base                  >=4.7  && <5
+    , base                  >=4.11   && <5
     , binary
     , binary-instances
     , bytestring
     , cassava
     , cassava-embed
-    , containers
+    , containers            >=0.5.8
     , deepseq
-    , file-embed
+    , file-embed            >=0.0.10
     , generic-arbitrary
     , http-api-data
     , lens                  >=4.17
@@ -47,13 +47,13 @@ library
     , quickcheck-instances
     , text
     , th-lift
-    , time
+    , time                  >=1.6
     , timezone-series
     , vector
 
   if !impl(ghcjs)
     build-depends:
-      , dom-parser
+      , dom-parser          >=2.0
       , xml-conduit-writer
 
   exposed-modules:
