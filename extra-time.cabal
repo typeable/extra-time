@@ -1,12 +1,13 @@
-cabal-version:        2.4
-
-name:                 extra-time
-version:              0.0.0.0
-license-file:         LICENSE
-author:               typeable.io
-maintainer:           giorgio@marinel.li
-build-type:           Simple
-extra-source-files:   README.md, data/opm-holidays.csv
+cabal-version:      2.4
+name:               extra-time
+version:            0.0.0.0
+license-file:       LICENSE
+author:             typeable.io
+maintainer:         giorgio@marinel.li
+build-type:         Simple
+extra-source-files:
+  data/opm-holidays.csv
+  README.md
 
 library
   hs-source-dirs:     src
@@ -26,33 +27,35 @@ library
     StandaloneDeriving
     TemplateHaskell
     TypeApplications
+
   build-depends:
-    -- | from ghc
-    base >= 4.7 && < 5 ,
-    binary ,
-    bytestring ,
-    containers ,
-    cassava ,
-    cassava-embed ,
-    file-embed ,
-    deepseq ,
-    mtl >= 2.2 ,
-    text ,
-    th-lift ,
-    time,
-    -- | from hackage
-    aeson ,
-    generic-arbitrary ,
-    http-api-data ,
-    lens >= 4.17 ,
-    QuickCheck ,
-    quickcheck-instances ,
-    timezone-series ,
-    vector ,
+    , aeson
+    , base                  >=4.11   && <5
+    , binary
+    , binary-instances
+    , bytestring
+    , cassava
+    , cassava-embed
+    , containers            >=0.5.8
+    , deepseq
+    , file-embed            >=0.0.10
+    , generic-arbitrary
+    , http-api-data
+    , lens                  >=4.17
+    , mtl                   >=2.2
+    , QuickCheck
+    , quickcheck-instances
+    , text
+    , th-lift
+    , time                  >=1.6
+    , timezone-series
+    , vector
+
   if !impl(ghcjs)
     build-depends:
-      dom-parser ,
-      xml-conduit-writer ,
+      , dom-parser          >=2.0
+      , xml-conduit-writer
+
   exposed-modules:
     Data.Time.Extra
     Data.Time.FastSeries
@@ -60,6 +63,5 @@ library
     Data.Time.Holidays
     Data.Time.LocalTime.Short
     Data.Time.Utils
-  other-modules:
-    Data.Time.LocalTime.Instances
-    Holidays.EDay
+
+  other-modules:      Holidays.EDay
