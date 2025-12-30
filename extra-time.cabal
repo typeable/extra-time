@@ -51,7 +51,7 @@ library
     , timezone-series
     , vector
 
-  if !impl(ghcjs)
+  if !(impl(ghcjs) || arch(javascript) || arch(wasm32))
     build-depends:
       , dom-parser          >=2.0
       , xml-conduit-writer
